@@ -1,4 +1,6 @@
 const nodemailer = require("nodemailer");
+const path = require("path");
+const ejs = require("ejs");
 
 const transporter = nodemailer.createTransport({
     service: "gmail",
@@ -18,15 +20,22 @@ transporter.verify((error, success) => {
       console.log("SMTP server is ready to send emails!");
     }
 });
+
+async function renderTemplate(template, data) {
+    const filePath = path.join(__dirname, "../views/emails", `${template}.ejs`);
+    return ejs.renderFile(filePath, data);
+}
   
 
-exports.sendEmail = async (to, subject, html) => {
-  return transporter.sendMail({
-    from: `"MyApp" <${process.env.EMAIL_USER}>`,
-    to,
-    subject,
-    html
-  });
+exports.sendEmail = async (to, subject, template, context) => {
+    const html = await renderTemplate(template, context);
+
+    return transporter.sendMail({
+        from: `"MyApp" <${process.env.EMAIL_USER}>`,
+        to,
+        subject,
+        html,
+    });
 };
 
 exports.generateOTP = () => {

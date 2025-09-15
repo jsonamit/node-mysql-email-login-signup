@@ -1,6 +1,7 @@
 const express = require("express");
 const cors = require("cors");
 const helmet = require('helmet');
+const path = require("path");
 require("dotenv").config();
 const bodyParser = require("body-parser");
 const sequelize = require("./connection/db");
@@ -26,6 +27,9 @@ app.use(bodyParser.json());
 
 // Parse application/x-www-form-urlencoded
 app.use(bodyParser.urlencoded({ extended: true }));
+
+app.set("view engine", "ejs");
+app.set("views", path.join(__dirname, "views"));
 
 //App middleware
 app.use(authMiddleware);

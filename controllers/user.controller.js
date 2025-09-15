@@ -39,7 +39,29 @@ exports.signup = async (req, res, next) => {
             });
         }
 
-        sendOTP(req, res);
+        const otp = generateOTP();
+        const expiry = Date.now() + 5 * 60 * 1000; // valid for 5 minutes
+
+        // Store OTP in DB
+        await User.update(
+            { otp, otpExpiry: expiry },
+            { where: { email: params.email } }
+        );
+
+        await sendEmail(
+            params.email, // to
+            "Signup OTP Mail", // subject
+            "welcome", // template name
+            { 
+                name: params.name,
+                otp: otp
+            } // params
+        );
+
+        return sendResponse(res, {
+            resp: 1,
+            msg: "OTP successfully sent on your mail!"
+        });
         
     } catch (err) {
         return sendResponse(res,{
@@ -70,46 +92,31 @@ exports.login = async (req, res, next) => {
             });
         }
 
-        sendOTP(req, res);
-
-    } catch (err) {
-        return sendResponse(res,{
-            resp: 0,
-            msg: err.message
-        });
-    }
-};
-
-const sendOTP = async (req, res) => {
-    try {
-
-        const { email } = req.body;
-
         const otp = generateOTP();
         const expiry = Date.now() + 5 * 60 * 1000; // valid for 5 minutes
 
         // Store OTP in DB
         await User.update(
             { otp, otpExpiry: expiry },
-            { where: { email } }
+            { where: { email: req.body.email } }
         );
 
         await sendEmail(
-            email,
-            "Your OTP Code",
-            `Your OTP is: ${otp}. It is valid for 5 minutes.`
+            req.body.email, // to
+            "Login OTP Mail", // subject
+            "loginOtp", // template name
+            { otp } // params
         );
 
         return sendResponse(res, {
             resp: 1,
-            msg: "OTP sent to your email",
-            data: { email }
+            msg: "OTP successfully sent on your mail!"
         });
 
     } catch (err) {
-        return sendResponse(res, { 
-            resp: 0, 
-            msg: err.message 
+        return sendResponse(res,{
+            resp: 0,
+            msg: err.message
         });
     }
 };
@@ -178,9 +185,8 @@ exports.verifyOTP = async (req, res) => {
             msg: err.message 
         });
     }
-  };
+};
   
-
 exports.getUsers = async (req, res, next) => {
     try {
 
