@@ -1,7 +1,51 @@
-<div style="font-family: Arial, sans-serif; padding: 20px;">
-    <h2 style="color:#007bff;">OTP: <%= otp %> 🎉</h2>
-    <p>Thanks for signing up with <b>MyApp</b>.</p>
-    <p>We’re excited to have you on board.</p>
-    <p>Best regards,<br>The MyApp Team</p>
+<div style="margin:0;background-color:#f4f6f8;font-family:Arial,Helvetica,sans-serif;">
+    <table role="presentation" cellpadding="0" cellspacing="0" width="100%" style="border-collapse:collapse;">
+      <tr>
+        <td align="center" style="padding:20px 10px;">
+          <!-- Container -->
+          <table role="presentation" cellpadding="0" cellspacing="0" width="600" style="width:600px;max-width:100%;background:#ffffff;border-radius:8px;overflow:hidden;border:1px solid #e6e9ee;">
+            <!-- Header -->
+            <tr>
+              <td style="padding:24px 28px 8px;background:linear-gradient(90deg,#0f6ef4,#5cc6ff);color:#ffffff;">
+                <h1 style="margin:0;font-size:20px;font-weight:700;line-height:1.2;">Your Company Name</h1>
+              </td>
+            </tr>
+
+            <!-- Greeting -->
+            <tr>
+              <td style="padding:22px 28px 0;color:#111827;">
+                <p style="margin:0;font-size:16px;">Hi,</p>
+                <p style="margin:12px 0 0;font-size:15px;color:#374151;">
+                  Use the one-time password (OTP) below to sign in. This code will expire in <strong>5 minutes</strong>.
+                </p>
+              </td>
+            </tr>
+
+            <!-- OTP -->
+            <tr>
+              <td align="center" style="padding:22px 28px;">
+                <table role="presentation" cellpadding="0" cellspacing="0">
+                  <tr>
+                    <td style="background:#f7fafc;border:1px dashed #d1d5db;padding:18px 28px;border-radius:6px;">
+                      <p style="margin:0;text-align:center;font-size:28px;letter-spacing:4px;font-weight:700;color:#0f1724;">
+                        <%= otp %>
+                      </p>
+                    </td>
+                  </tr>
+                </table>
+              </td>
+            </tr>
+
+            <!-- Footer -->
+            <tr>
+              <td style="background:#fafbff;padding:14px 28px;border-top:1px solid #eef2ff;color:#6b7280;font-size:13px;">
+                <p style="margin:0;">© <%= new Date().getFullYear() %> Your Company Name. All rights reserved.</p>
+              </td>
+            </tr>
+          </table>
+        </td>
+      </tr>
+    </table>
 </div>
+
   

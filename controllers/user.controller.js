@@ -1,9 +1,9 @@
 const jwt = require("jsonwebtoken");
 const User = require("../models/User");
 const { sendResponse } = require("../utils/response");
-const { verifyRequest } = require("../library/utils.library");
+const { verifyRequest, generateOTP } = require("../library/utils.library");
 const { pagination } = require("../utils/paginationHelper");
-const { sendEmail, generateOTP } = require("../utils/email");
+const { sendEmail } = require("../utils/email");
 
 exports.signup = async (req, res, next) => {
     try {        
